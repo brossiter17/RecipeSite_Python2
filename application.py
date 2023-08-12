@@ -39,15 +39,18 @@ def add_beneficiary_auto():
     """
     form = BeneficiaryForm()
     if form.validate_on_submit():
-        applicant_name = form.applicant_name.data
-        applicant_email = form.applicant_email.data
-        applicant_tel = form.applicant_tel.data
-        applicant_dob = form.applicant_dob.data
-        applicant_desc = form.applicant_desc.data
-        pic_filename = applicant_name.lower().replace(" ", "_") + '.' + secure_filename(form.applicant_picture.data.filename).split('.')[-1]
-        form.applicant_picture.data.save(os.path.join(app.config['SUBMITTED_IMG'] + pic_filename))
-        df = pd.DataFrame([{'name': applicant_name, 'email': applicant_email, 'tel': applicant_tel, 'dob':applicant_dob, 'desc':applicant_desc, 'pic': pic_filename}])
-        df.to_csv(os.path.join(app.config['SUBMITTED_DATA'] + applicant_name.lower().replace(" ", "_") + '.csv'))
+
+        recipe_name = form.recipe_name.data
+        recipe_ingredients = form.recipe_ingredients.data
+        recipe_directions = form.recipe_directions
+        recipe_try = form.recipe_try
+
+
+        pic_filename = recipe_name.lower().replace(" ", "_") + '.' + secure_filename(form.recipe_picture.data.filename).split('.')[-1]
+        form.recipe_picture.data.save(os.path.join(app.config['SUBMITTED_IMG'] + pic_filename))
+        df = pd.DataFrame([{'name': recipe_name, 'ingredients': recipe_ingredients, 'directons': recipe_directions, 'try':recipe_try, 'pic': pic_filename}])
+        df.to_csv(os.path.join(app.config['SUBMITTED_DATA'] + recipe_name.lower().replace(" ", "_") + '.csv'))
+
         return redirect(url_for('hello_world'))
     else:
         return render_template('add_beneficiary_auto.html', form=form)

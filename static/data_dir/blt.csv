@@ -1,0 +1,8 @@
+,name,ingredients,directons,try,pic
+0,BLT,"Bacon
+Lettuce
+Tomato
+Bread
+Mayo","<textarea id=""recipe_directions"" name=""recipe_directions"" required>
+Add mayo to the bread
+Add bacon, lettuce and sliced tomato</textarea>","<input id=""recipe_try"" name=""recipe_try"" required type=""text"" value=""Salad or fries"">",blt.jpeg
