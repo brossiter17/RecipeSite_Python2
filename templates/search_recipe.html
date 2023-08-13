@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+Search Recipe
+{% endblock %}
+
+{% block H1_Description %}
+Search for a Recipe
+{% endblock %}
+
+{% block H1_Content %}
+Enter the name of the recipe you want to search for:
+{% endblock %}
+
+{% block H2_Description %}
+Search Recipe
+{% endblock %}
+
+{% block H2_Content %}
+<section>
+
+    <form action="{{ url_for('search_recipe') }}" method="post">
+
+<!--    <form action="{{ url_for('search_recipe') }}" method="post">-->
+        {{ form.csrf_token }}
+        <table>
+            {{ render_field(form.recipe_name, size=25) }}
+        </table>
+        <button type="submit">Search</button>
+    </form>
+</section>
+{% endblock %}

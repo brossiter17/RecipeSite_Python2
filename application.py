@@ -1,6 +1,9 @@
 import os
 from flask import Flask, redirect, url_for, request, render_template
-from forms import BeneficiaryForm
+# from forms import BeneficiaryForm
+
+from forms import RecipeForm
+
 import pandas as pd
 from werkzeug.utils import secure_filename
 
@@ -37,23 +40,74 @@ def add_beneficiary_auto():
     Function to us inbuilt methods to add a beneficiary, with file handling
     :return:
     """
-    form = BeneficiaryForm()
-    if form.validate_on_submit():
 
+
+
+
+
+
+
+    form = RecipeForm()
+    # form = BeneficiaryForm()
+
+    if form.validate_on_submit():
         recipe_name = form.recipe_name.data
         recipe_ingredients = form.recipe_ingredients.data
         recipe_directions = form.recipe_directions
         recipe_try = form.recipe_try
 
-
         pic_filename = recipe_name.lower().replace(" ", "_") + '.' + secure_filename(form.recipe_picture.data.filename).split('.')[-1]
         form.recipe_picture.data.save(os.path.join(app.config['SUBMITTED_IMG'] + pic_filename))
         df = pd.DataFrame([{'name': recipe_name, 'ingredients': recipe_ingredients, 'directons': recipe_directions, 'try':recipe_try, 'pic': pic_filename}])
         df.to_csv(os.path.join(app.config['SUBMITTED_DATA'] + recipe_name.lower().replace(" ", "_") + '.csv'))
+        return render_template('index.html')
 
-        return redirect(url_for('hello_world'))
+
+        # return redirect(url_for('hello_world'))
     else:
         return render_template('add_beneficiary_auto.html', form=form)
+
+
+
+
+
+
+# @app.route('/search_recipe/<name>', methods = ['POST', 'GET'])
+# def search_recipe(name):
+#     return render_template('viewbeneficiary.html', form=form )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @app.route('/display_data/<name>')
