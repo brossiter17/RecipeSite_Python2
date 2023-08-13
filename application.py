@@ -40,13 +40,6 @@ def add_beneficiary_auto():
     Function to us inbuilt methods to add a beneficiary, with file handling
     :return:
     """
-
-
-
-
-
-
-
     form = RecipeForm()
     # form = BeneficiaryForm()
 
@@ -54,11 +47,11 @@ def add_beneficiary_auto():
         recipe_name = form.recipe_name.data
         recipe_ingredients = form.recipe_ingredients.data
         recipe_directions = form.recipe_directions
-        recipe_try = form.recipe_try
+        recipe_servings = form.recipe_servings
 
         pic_filename = recipe_name.lower().replace(" ", "_") + '.' + secure_filename(form.recipe_picture.data.filename).split('.')[-1]
         form.recipe_picture.data.save(os.path.join(app.config['SUBMITTED_IMG'] + pic_filename))
-        df = pd.DataFrame([{'name': recipe_name, 'ingredients': recipe_ingredients, 'directons': recipe_directions, 'try':recipe_try, 'pic': pic_filename}])
+        df = pd.DataFrame([{'name': recipe_name, 'ingredients': recipe_ingredients, 'directons': recipe_directions, 'servings':recipe_servings, 'pic': pic_filename}])
         df.to_csv(os.path.join(app.config['SUBMITTED_DATA'] + recipe_name.lower().replace(" ", "_") + '.csv'))
         return render_template('index.html')
 
@@ -68,46 +61,9 @@ def add_beneficiary_auto():
         return render_template('add_beneficiary_auto.html', form=form)
 
 
-
-
-
-
 # @app.route('/search_recipe/<name>', methods = ['POST', 'GET'])
 # def search_recipe(name):
 #     return render_template('viewbeneficiary.html', form=form )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 @app.route('/display_data/<name>')
