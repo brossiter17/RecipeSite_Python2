@@ -1,32 +1,45 @@
 {% extends "base.html" %}
+{% from "form-macros.html" import render_field %}
 
 {% block page_title %}
-Search Recipe
+Search Recipes
 {% endblock %}
 
 {% block H1_Description %}
-Search for a Recipe
+Search for Recipes
 {% endblock %}
 
 {% block H1_Content %}
-Enter the name of the recipe you want to search for:
+Please enter the search criteria below:
 {% endblock %}
 
 {% block H2_Description %}
-Search Recipe
+Search Criteria
 {% endblock %}
 
 {% block H2_Content %}
 <section>
-
-    <form action="{{ url_for('search_recipe') }}" method="post">
-
-<!--    <form action="{{ url_for('search_recipe') }}" method="post">-->
+    <form action="" method="post">
         {{ form.csrf_token }}
-        <table>
-            {{ render_field(form.recipe_name, size=25) }}
-        </table>
-        <button type="submit">Search</button>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Search: </h3>
+                <table>
+                    {{ render_field(form.recipe_name, size=25) }}
+                    {{ render_field(form.recipe_ingredients, size=200) }}
+                    {{ render_field(form.recipe_directions, size=200) }}
+                    {{ render_field(form.recipe_servings, size=50) }}
+                </table>
+            </div>
+            <table>
+                <tr class="submit">
+                    <td></td>
+                    <td>
+                        <button type="submit">Search</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </form>
 </section>
 {% endblock %}

@@ -26,10 +26,14 @@
                 <h1 class="title">{% block page_title %}{% endblock %}</h1>
                 <nav>
                     <ul>
-                        <li><a href={{ url_for('hello_admin') }}>Admin</a></li>
+
+                        <li><a href={{ url_for('search_recipe') }}>Delete</a></li>
 
 
-                        <li><a href="#">Search </a></li>
+<!--                        <li><a href={{ url_for('hello_admin') }}>Delete</a></li>-->
+
+                        <li><a href="{{ url_for('search_recipe') }}">Search</a></li> <!-- Add this line -->
+<!--                        <li><a href="#">Search </a></li>-->
 
 
                         <li><a href={{ url_for('add_beneficiary_auto') }}>Add Recipe</a></li>

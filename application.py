@@ -1,5 +1,5 @@
 import os
-from flask import Flask, redirect, url_for, request, render_template
+from flask import Flask, redirect, url_for, request, render_template, flash
 # from forms import BeneficiaryForm
 
 from forms import RecipeForm
@@ -34,6 +34,9 @@ def add_beneficiary():
     else:
         return render_template('add_beneficiary_manual.html')
 
+
+
+
 @app.route('/add_beneficiary_auto', methods = ['POST', 'GET'])
 def add_beneficiary_auto():
     """
@@ -53,17 +56,48 @@ def add_beneficiary_auto():
         form.recipe_picture.data.save(os.path.join(app.config['SUBMITTED_IMG'] + pic_filename))
         df = pd.DataFrame([{'name': recipe_name, 'ingredients': recipe_ingredients, 'directons': recipe_directions, 'servings':recipe_servings, 'pic': pic_filename}])
         df.to_csv(os.path.join(app.config['SUBMITTED_DATA'] + recipe_name.lower().replace(" ", "_") + '.csv'))
-        return render_template('index.html')
+
+        return redirect(url_for('hello_world'))
 
 
-        # return redirect(url_for('hello_world'))
     else:
         return render_template('add_beneficiary_auto.html', form=form)
 
 
-# @app.route('/search_recipe/<name>', methods = ['POST', 'GET'])
-# def search_recipe(name):
-#     return render_template('viewbeneficiary.html', form=form )
+
+
+
+@app.route('/search_recipe', methods=['GET', 'POST'])
+def search_recipe():
+    form = RecipeForm()  # Create an instance of the RecipeForm for the search page
+
+    if form.validate_on_submit():
+        # Implement your search logic here
+        # You can access form data using form.recipe_name.data, etc.
+        # Return search results or redirect to a results page
+        pass
+
+    return render_template('search_recipe.html', form=form)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @app.route('/display_data/<name>')
@@ -105,13 +139,21 @@ def print_float(floatID):
     """
     return 'Floating Number %f!' % floatID
 
+
+
+
+
 @app.route('/admin')
 def hello_admin():
     """
     Example for a sample page
     :return: string
     """
-    return "Hello Admin"
+    # return "Hello Admin"
+    # return render_template('search_recipe.html')
+    return render_template('search_recipe.html', form=form)
+
+
 
 @app.route('/guest/<guest>')
 def hello_guest(guest):
