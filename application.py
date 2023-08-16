@@ -54,10 +54,6 @@ def add_beneficiary_auto():
     else:
         return render_template('add_beneficiary_auto.html', form=form)
 
-
-
-
-
 @app.route('/search_recipe', methods=['GET', 'POST'])
 def search_recipe():
     form = RecipeForm()  # Create an instance of the form
@@ -74,11 +70,6 @@ def display_search_results():
         return render_template('view_beneficiary.html', recipe=df.iloc[0])
     else:
         return "No recipe found"
-
-
-
-
-
 
 @app.route('/display_data/<name>')
 def render_information(name):

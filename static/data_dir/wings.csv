@@ -1,0 +1,3 @@
+,name,ingredients,directons,servings,pic
+0,Wings,"chicken wings, sauce","<textarea id=""recipe_directions"" name=""recipe_directions"" required>
+air fry wings until crisppy</textarea>","<input id=""recipe_servings"" name=""recipe_servings"" required type=""text"" value=""serves 1-2"">",wings.jpg
