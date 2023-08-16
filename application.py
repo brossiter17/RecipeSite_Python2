@@ -1,9 +1,6 @@
 import os
 from flask import Flask, redirect, url_for, request, render_template, flash
-# from forms import BeneficiaryForm
-
 from forms import RecipeForm
-
 import pandas as pd
 from werkzeug.utils import secure_filename
 
@@ -44,9 +41,9 @@ def add_beneficiary_auto():
     :return:
     """
     form = RecipeForm()
-    # form = BeneficiaryForm()
-
     if form.validate_on_submit():
+
+
         recipe_name = form.recipe_name.data
         recipe_ingredients = form.recipe_ingredients.data
         recipe_directions = form.recipe_directions
@@ -56,10 +53,7 @@ def add_beneficiary_auto():
         form.recipe_picture.data.save(os.path.join(app.config['SUBMITTED_IMG'] + pic_filename))
         df = pd.DataFrame([{'name': recipe_name, 'ingredients': recipe_ingredients, 'directons': recipe_directions, 'servings':recipe_servings, 'pic': pic_filename}])
         df.to_csv(os.path.join(app.config['SUBMITTED_DATA'] + recipe_name.lower().replace(" ", "_") + '.csv'))
-
         return redirect(url_for('hello_world'))
-
-
     else:
         return render_template('add_beneficiary_auto.html', form=form)
 
@@ -69,15 +63,68 @@ def add_beneficiary_auto():
 
 @app.route('/search_recipe', methods=['GET', 'POST'])
 def search_recipe():
-    form = RecipeForm()  # Create an instance of the RecipeForm for the search page
+    form = RecipeForm()
 
     if form.validate_on_submit():
-        # Implement your search logic here
-        # You can access form data using form.recipe_name.data, etc.
-        # Return search results or redirect to a results page
-        pass
+        # Retrieve the search criteria from the form
+        search_name = form.recipe_name.data.strip().lower()
+
+
+
+        # Read the CSV files to check for a match
+        matching_recipes = []
+        for filename in os.listdir(app.config['SUBMITTED_DATA']):
+            if filename.endswith('.csv'):
+                df = pd.read_csv(os.path.join(app.config['SUBMITTED_DATA'], filename))
+                recipe_name = df.iloc[0]['name'].strip().lower()
+
+                if search_name in recipe_name:
+                    matching_recipes.append(df.iloc[0])
+
+        # Render the search results
+        if matching_recipes:
+            return render_template('search_results.html', results=matching_recipes)
+        else:
+            flash(f"No recipes found with name '{search_name}'. Please try again.")
+            return redirect(url_for('search_recipe'))
 
     return render_template('search_recipe.html', form=form)
+
+
+# @app.route('/search_recipe', methods=['GET', 'POST'])
+# def search_recipe():
+#     form = RecipeForm()
+#
+#     if form.validate_on_submit():
+#         # Retrieve the search criteria from the form
+#         search_name = form.recipe_name.data.strip().lower()
+#
+#         # Add a print statement to check if the form is validating and if the search criteria are being retrieved correctly
+#         print(f"Form validated. Search name: {search_name}")
+#
+#         # Read the CSV files to check for a match
+#         matching_recipes = []
+#         for filename in os.listdir(app.config['SUBMITTED_DATA']):
+#             if filename.endswith('.csv'):
+#                 df = pd.read_csv(os.path.join(app.config['SUBMITTED_DATA'], filename))
+#                 recipe_name = df.iloc[0]['name'].strip().lower()
+#
+#                 if search_name in recipe_name:
+#                     matching_recipes.append(df.iloc[0])
+#
+#         # Add a print statement to check if any matching recipes were found
+#         print(f"Matching recipes: {matching_recipes}")
+#
+#         # Render the search results
+#         if matching_recipes:
+#             return render_template('search_results.html', results=matching_recipes)
+#         else:
+#             flash(f"No recipes found with name '{search_name}'. Please try again.")
+#             return redirect(url_for('search_recipe'))
+#
+#     return render_template('search_recipe.html', form=form)
+
+
 
 
 
@@ -111,7 +158,6 @@ def render_information(name):
     print (df.iloc[0]['name'])
     return render_template('view_beneficiary.html', beneficiary=df.iloc[0])
 
-
 @app.route('/variabletest/<name>')
 def print_variable(name):
     """
@@ -139,10 +185,6 @@ def print_float(floatID):
     """
     return 'Floating Number %f!' % floatID
 
-
-
-
-
 @app.route('/admin')
 def hello_admin():
     """
@@ -152,8 +194,6 @@ def hello_admin():
     # return "Hello Admin"
     # return render_template('search_recipe.html')
     return render_template('search_recipe.html', form=form)
-
-
 
 @app.route('/guest/<guest>')
 def hello_guest(guest):
