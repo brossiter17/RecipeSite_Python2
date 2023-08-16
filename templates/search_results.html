@@ -18,30 +18,20 @@
 
 <!--{% block H2_Content %}-->
 <!--{% if results %}-->
-<!--<table>-->
-<!--    <thead>-->
-<!--        <tr>-->
-<!--            <th>Name</th>-->
-<!--            <th>Ingredients</th>-->
-<!--            <th>Directions</th>-->
-<!--            <th>Servings</th>-->
-<!--        </tr>-->
-<!--    </thead>-->
-<!--    <tbody>-->
-<!--        {% for recipe in results %}-->
-<!--        <tr>-->
-<!--            <td>{{ recipe['name'] }}</td>-->
-<!--            <td>{{ recipe['ingredients'] }}</td>-->
-<!--            <td>{{ recipe['directons'] }}</td>-->
-<!--            <td>{{ recipe['servings'] }}</td>-->
-<!--        </tr>-->
-<!--        {% endfor %}-->
-<!--    </tbody>-->
-<!--</table>-->
-<!--{% else %}-->
-<!--<p>No matching recipes found.</p>-->
-<!--{% endif %}-->
-<!--{% endblock %}-->
+
+<!--<div class="container">-->
+<!--  <div class="row">-->
+<!--    <div class="col-md-4">-->
+<!--      <img src="{{ url_for('static', filename='image_dir/{}'.format(recipe_picture.pic)) }}">-->
+<!--    </div>-->
+<!--      <div class="col-md-8">-->
+<!--        <h4 class="font-weight-bold mb-0">Recipe Name: <span class="text-muted font-weight-normal"> {{ recipe['recipe_name'] }}</span></h4>-->
+<!--        <h4 class="font-weight-bold mb-0">Recipe Ingredients: <span class="text-muted font-weight-normal"> {{ recipe_ingredients }}</span></h4>-->
+<!--        <h4 class="font-weight-bold mb-0">Recipe Directions: <span class="text-muted font-weight-normal"> {{ recipe_directions }}</span></h4>-->
+<!--        <h4 class="font-weight-bold mb-0">Serves: <span class="text-muted font-weight-normal"> {{ recipe.servings }}</span></h4>-->
+<!--    </div>-->
+<!--    </div>-->
+<!--  </div>-->
 
 
 
@@ -67,54 +57,14 @@ Search Results
 
 {% block H2_Content %}
 {% if results %}
-<!--<table>-->
-<!--    <thead>-->
-<!--        <tr>-->
-<!--            <th>Name</th>-->
-<!--            <th>Ingredients</th>-->
-<!--            <th>Directions</th>-->
-<!--            <th>Servings</th>-->
-<!--        </tr>-->
-<!--    </thead>-->
-<!--    <tbody>-->
-<!--        {% for recipe in results %}-->
-<!--        <tr>-->
-<!--            <td>{{ recipe['name'] }}</td>-->
-<!--            <td>{{ recipe['ingredients'] }}</td>-->
-<!--            <td>{{ recipe['directons'] }}</td>-->
-<!--            <td>{{ recipe['servings'] }}</td>-->
-<!--        </tr>-->
-<!--        {% endfor %}-->
-<!--    </tbody>-->
-<!--</table>-->
-<!--{% else %}-->
-<!--<p>No matching recipes found.</p>-->
-<!--{% endif %}-->
-<!--{% endblock %}-->
-
-
-<!--{% block content %}-->
-<!--  <h1>{{ recipe.name }}</h1>-->
-<!--  <img src="{{ pic_path }}" alt="{{ recipe.name }}">-->
-<!--  <h2>Ingredients</h2>-->
-<!--  <p>{{ recipe.ingredients }}</p>-->
-<!--  <h2>Directions</h2>-->
-<!--  <p>{{ recipe.directions }}</p>-->
-<!--  <h2>Servings</h2>-->
-<!--  <p>{{ recipe.servings }}</p>-->
-<!--{% endblock %}-->
-
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-4">
-      <img src="{{ url_for('static', filename='image_dir/{}'.format(recipe_picture.pic)) }}">
-    </div>
-      <div class="col-md-8">
-        <h4 class="font-weight-bold mb-0">Recipe Name: <span class="text-muted font-weight-normal"> {{ beneficiary['recipe_name'] }}</span></h4>
-        <h4 class="font-weight-bold mb-0">Recipe Ingredients: <span class="text-muted font-weight-normal"> {{ recipe_ingredients }}</span></h4>
-        <h4 class="font-weight-bold mb-0">Recipe Directions: <span class="text-muted font-weight-normal"> {{ recipe_directions }}</span></h4>
-        <h4 class="font-weight-bold mb-0">Serves: <span class="text-muted font-weight-normal"> {{ recipe.servings }}</span></h4>
-    </div>
-    </div>
-  </div>
+  <ul>
+    {% for recipe in results %}
+      <li>
+        <a href="{{ url_for('render_information', name=recipe['name']) }}">{{ recipe['name'] }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No recipes found.</p>
+{% endif %}
+{% endblock %}
