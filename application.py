@@ -67,7 +67,7 @@ def display_search_results():
     recipe_name = request.args.get('recipe_name', '')
     if recipe_name:
         df = pd.read_csv(os.path.join(app.config['SUBMITTED_DATA'] + recipe_name.lower().replace(" ", "_") + '.csv'))
-        return render_template('view_beneficiary.html', recipe=df.iloc[0])
+        return render_template('view_recipe.html', recipe=df.iloc[0])
     else:
         return "No recipe found"
 
@@ -80,7 +80,7 @@ def render_information(name):
     """
     df = pd.read_csv(os.path.join(app.config['SUBMITTED_DATA'] + name.lower().replace(" ", "_") + '.csv'), index_col=False)
     print (df.iloc[0]['name'])
-    return render_template('view_beneficiary.html', recipe=df.iloc[0])
+    return render_template('view_recipe.html', recipe=df.iloc[0])
 
 @app.route('/variabletest/<name>')
 def print_variable(name):
