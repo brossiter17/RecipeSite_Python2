@@ -10,7 +10,7 @@ Please enter the search criteria below
 {% endblock %}
 
 {% block H1_Content %}
-Click <b><i>Search</i></b> to find another recipe
+Search for a recipe to delete
 {% endblock %}
 
 {% block H2_Description %}
@@ -22,7 +22,6 @@ Click <b><i>Search</i></b> to find another recipe
         {{ form.csrf_token }}
         <div class="row">
             <div class="col-md-6">
-
                 <table>
                     {{ render_field(form.recipe_name, size=25) }}
                 </table>
@@ -39,3 +38,4 @@ Click <b><i>Search</i></b> to find another recipe
     </form>
 </section>
 {% endblock %}
+

@@ -41,16 +41,8 @@ def add_beneficiary_auto():
     if form.validate_on_submit():
         recipe_name = form.recipe_name.data
         recipe_ingredients = form.recipe_ingredients.data
-
-        # recipe_directions = form.recipe_directions
         recipe_directions = form.recipe_directions.data
-
-
-        # recipe_servings = form.recipe_servings
         recipe_servings = form.recipe_servings.data
-
-
-
         pic_filename = recipe_name.lower().replace(" ", "_") + '.' + secure_filename(form.recipe_picture.data.filename).split('.')[-1]
         form.recipe_picture.data.save(os.path.join(app.config['SUBMITTED_IMG'] + pic_filename))
         df = pd.DataFrame([{'name': recipe_name, 'ingredients': recipe_ingredients, 'directions': recipe_directions, 'servings':recipe_servings, 'pic': pic_filename}])
@@ -58,10 +50,6 @@ def add_beneficiary_auto():
         return redirect(url_for('hello_world'))
     else:
         return render_template('add_beneficiary_auto.html', form=form)
-
-
-
-
 
 
 
@@ -77,23 +65,29 @@ def search_recipe():
 def display_search_results():
     recipe_name = request.args.get('recipe_name', '')
     if recipe_name:
-
         df = pd.read_csv(os.path.join(app.config['SUBMITTED_DATA'] + recipe_name.lower().replace(" ", "_") + '.csv'))
         return render_template('view_recipe.html', recipe=df.iloc[0], recipe_name=recipe_name)
-
-
         # df = pd.read_csv(os.path.join(app.config['SUBMITTED_DATA'] + recipe_name.lower().replace(" ", "_") + '.csv'))
         # return render_template('view_recipe.html', recipe=df.iloc[0])
     else:
         return "No recipe found"
 
+@app.route('/search_delete', methods=['GET', 'POST'])
+def search_delete():
+    form = RecipeForm()  # Create an instance of the form
+    if request.method == 'POST':
+        recipe_name = request.form['recipe_name']
+        return redirect(url_for('display_delete_results', recipe_name=recipe_name))
+    return render_template('search_delete.html', form=form)  # Pass the form to the template
 
-
-
-
-
-
-
+@app.route('/display_delete_results', methods=['GET'])
+def display_delete_results():
+    recipe_name = request.args.get('recipe_name', '')
+    if recipe_name:
+        df = pd.read_csv(os.path.join(app.config['SUBMITTED_DATA'] + recipe_name.lower().replace(" ", "_") + '.csv'))
+        return render_template('view_delete.html', recipe=df.iloc[0], recipe_name=recipe_name)
+    else:
+        return "No recipe found"
 
 
 @app.route('/display_data/<name>')

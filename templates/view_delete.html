@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block page_title %}
@@ -9,7 +10,7 @@ The recipe you requested
 {% endblock %}
 
 {% block H1_Content %}
-Click <i><b> Search</b></i> to find another recipe
+Click Search to find another recipe
 {% endblock %}
 
 {% block H2_Description %}
@@ -28,6 +29,7 @@ Click <i><b> Search</b></i> to find another recipe
           {% for _ in range(10) %}&nbsp;{% endfor %}
           {{ recipe_name }}
         </span>
+      </h4>
 
       <h4 class="font-weight-bold mb-0">
         Ingredients:
@@ -52,7 +54,14 @@ Click <i><b> Search</b></i> to find another recipe
           {{ recipe['servings'] }}
         </span>
       </h4>
-
+      <table>
+        <tr class="submit">
+          <td></td>
+            <td>
+              <button type="submit">Delete</button>
+            </td>
+        </tr>
+      </table>
 
 
 
