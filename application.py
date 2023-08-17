@@ -37,12 +37,6 @@ def is_recipe_name_taken(recipe_name):
     recipe_csv_file = os.path.join(app.config['SUBMITTED_DATA'], recipe_name.lower().replace(" ", "_") + '.csv')
     return os.path.exists(recipe_csv_file)
 
-
-
-
-
-
-
 @app.route('/add_beneficiary_auto', methods = ['POST', 'GET'])
 def add_beneficiary_auto():
     """
@@ -51,25 +45,14 @@ def add_beneficiary_auto():
     """
     form = RecipeForm()
     if form.validate_on_submit():
-
         recipe_name = form.recipe_name.data
         if is_recipe_name_taken(recipe_name):
             flash("Name is in use. Enter a new recipe name and click Submit", "error")
-
             form.recipe_name.data = recipe_name
             form.recipe_ingredients.data = request.form.get('recipe_ingredients', 'recipe_ingredients')
             form.recipe_directions.data = request.form.get('recipe_directions', 'recipe_directions')
             form.recipe_servings.data = request.form.get('recipe_servings', 'recipe_servings')
             return render_template('add_beneficiary_auto.html', form=form)
-
-            return redirect(url_for('add_beneficiary_auto', form=form))
-
-
-
-
-
-
-
         recipe_ingredients = form.recipe_ingredients.data
         recipe_directions = form.recipe_directions.data
         recipe_servings = form.recipe_servings.data
@@ -91,22 +74,56 @@ def search_recipe():
         return redirect(url_for('display_search_results', recipe_name=recipe_name))
     return render_template('search_recipe.html', form=form)  # Pass the form to the template
 
+
+
 @app.route('/display_search_results', methods=['GET'])
 def display_search_results():
     recipe_name = request.args.get('recipe_name', '')
-    if recipe_name:
-        df = pd.read_csv(os.path.join(app.config['SUBMITTED_DATA'] + recipe_name.lower().replace(" ", "_") + '.csv'))
+    recipe_csv_file = os.path.join(app.config['SUBMITTED_DATA'], recipe_name.lower().replace(" ", "_") + '.csv')
+    if os.path.exists(recipe_csv_file):
+        df = pd.read_csv(recipe_csv_file)
         return render_template('view_recipe.html', recipe=df.iloc[0], recipe_name=recipe_name)
     else:
-        return "No recipe found"
+        return render_template('recipe_not_found.html', recipe_name=recipe_name)
+
+
+
+
+
+
+# @app.route('/display_search_results', methods=['GET'])
+# def display_search_results():
+#     recipe_name = request.args.get('recipe_name', '')
+#     recipe_csv_file = os.path.join(app.config['SUBMITTED_DATA'], recipe_name.lower().replace(" ", "_") + '.csv')
+#     if os.path.exists(recipe_csv_file):
+#         df = pd.read_csv(recipe_csv_file)
+#         return render_template('view_recipe.html', recipe=df.iloc[0], recipe_name=recipe_name)
+#     else:
+#         return render_template('recipe_not_found.html', recipe_name=recipe_name)
+
+
+
+
+
+# @app.route('/display_search_results', methods=['GET'])
+# def display_search_results():
+#     recipe_name = request.args.get('recipe_name', '')
+#     if recipe_name:
+#         df = pd.read_csv(os.path.join(app.config['SUBMITTED_DATA'] + recipe_name.lower().replace(" ", "_") + '.csv'))
+#         return render_template('view_recipe.html', recipe=df.iloc[0], recipe_name=recipe_name)
+#     else:
+#         return "No recipe found"
+
+
+
 
 @app.route('/search_delete', methods=['GET', 'POST'])
 def search_delete():
-    form = RecipeForm()  # Create an instance of the form
+    form = RecipeForm()
     if request.method == 'POST':
         recipe_name = request.form['recipe_name']
         return redirect(url_for('display_delete_results', recipe_name=recipe_name))
-    return render_template('search_delete.html', form=form)  # Pass the form to the template
+    return render_template('search_delete.html', form=form)
 
 @app.route('/display_delete_results', methods=['GET'])
 def display_delete_results():
