@@ -67,8 +67,6 @@ def display_search_results():
     if recipe_name:
         df = pd.read_csv(os.path.join(app.config['SUBMITTED_DATA'] + recipe_name.lower().replace(" ", "_") + '.csv'))
         return render_template('view_recipe.html', recipe=df.iloc[0], recipe_name=recipe_name)
-        # df = pd.read_csv(os.path.join(app.config['SUBMITTED_DATA'] + recipe_name.lower().replace(" ", "_") + '.csv'))
-        # return render_template('view_recipe.html', recipe=df.iloc[0])
     else:
         return "No recipe found"
 
@@ -97,10 +95,6 @@ def render_information(name):
     :param name: Name of the beneficiary
     :return:
     """
-    # df = pd.read_csv(os.path.join(app.config['SUBMITTED_DATA'] + name.lower().replace(" ", "_") + '.csv'), index_col=False)
-    # print (df.iloc[0]['name'])
-    # return render_template('view_recipe.html', recipe=df.iloc[0])
-
     df = pd.read_csv(os.path.join(app.config['SUBMITTED_DATA'] + name.lower().replace(" ", "_") + '.csv'), index_col=False)
     return render_template('view_recipe.html', recipe=df.iloc[0], recipe_name=df.iloc[0]['name'])
 
@@ -114,13 +108,6 @@ def delete_recipe(recipe_name):
         return redirect(url_for('hello_world'))
     else:
         return "Recipe not found"
-
-
-
-
-
-
-
 
 @app.route('/variabletest/<name>')
 def print_variable(name):
