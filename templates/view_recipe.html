@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+My Favorite Recipies
+{% endblock %}
+
+{% block H1_Description %}
+The recipe you requested:
+{% endblock %}
+
+{% block H1_Content %}
+{% endblock %}
+
+{% block H2_Description %}
+Click <i>Search<i> to find a new recipe
+{% endblock %}
+
+{% block H2_Content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <img src="{{ url_for('static', filename='image_dir/{}'.format(recipe['pic'])) }}">
+    </div>
+    <div class="col-md-8">
+      <h4 class="font-weight-bold mb-0">
+        Name:
+        <span class="text-muted font-weight-normal" style="padding-left: 21px;">
+          {% for _ in range(10) %}&nbsp;{% endfor %}
+          {{ recipe_name }}
+        </span>
+
+      <h4 class="font-weight-bold mb-0">
+        Ingredients:
+        <span class="text-muted font-weight-normal" style="padding-left: 0px;">
+          {% for _ in range(6) %}&nbsp;{% endfor %}
+          {{ recipe['ingredients'] }}
+        </span>
+      </h4>
+
+      <h4 class="font-weight-bold mb-0">
+        Directions:
+        <span class="text-muted font-weight-normal" style="padding-left: 17px;">
+          {% for _ in range(4) %}&nbsp;{% endfor %}
+          {{ recipe['directions'] }}
+        </span>
+      </h4>
+
+      <h4 class="font-weight-bold mb-0">
+        Serves:
+        <span class="text-muted font-weight-normal" style="padding-left: 26px;">
+          {% for _ in range(7) %}&nbsp;{% endfor %}
+          {{ recipe['servings'] }}
+        </span>
+      </h4>
+    </div>
+  </div>
+</div>
+
+<style>
+  h4 {
+    font-family: Arial, sans-serif; /* Example font family */
+    font-size: 14px; /* Example font size */
+    font-weight: bold;
+    line-height: 1.5; /* Example line height */
+    color: #333; /* Example text color */
+  }
+</style>
+{% endblock %}

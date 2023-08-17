@@ -1,3 +1,0 @@
-,name,ingredients,directons,servings,pic
-0,Piazza,"crust, sauce, cheese","<textarea id=""recipe_directions"" name=""recipe_directions"" required>
-assemble, bake</textarea>","<input id=""recipe_servings"" name=""recipe_servings"" required type=""text"" value=""Serves 4-5"">",piazza.jpg

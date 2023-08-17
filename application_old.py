@@ -1,6 +1,6 @@
 import os
 from flask import Flask, redirect, url_for, request, render_template, flash
-from forms import RecipeForm
+from forms import RecipeForm, RecipeDisplayForm
 import pandas as pd
 from werkzeug.utils import secure_filename
 
@@ -41,16 +41,8 @@ def add_beneficiary_auto():
     if form.validate_on_submit():
         recipe_name = form.recipe_name.data
         recipe_ingredients = form.recipe_ingredients.data
-
-        # recipe_directions = form.recipe_directions
-        recipe_directions = form.recipe_directions.data
-
-
-        # recipe_servings = form.recipe_servings
-        recipe_servings = form.recipe_servings.data
-
-
-
+        recipe_directions = form.recipe_directions
+        recipe_servings = form.recipe_servings
         pic_filename = recipe_name.lower().replace(" ", "_") + '.' + secure_filename(form.recipe_picture.data.filename).split('.')[-1]
         form.recipe_picture.data.save(os.path.join(app.config['SUBMITTED_IMG'] + pic_filename))
         df = pd.DataFrame([{'name': recipe_name, 'ingredients': recipe_ingredients, 'directions': recipe_directions, 'servings':recipe_servings, 'pic': pic_filename}])
@@ -58,6 +50,7 @@ def add_beneficiary_auto():
         return redirect(url_for('hello_world'))
     else:
         return render_template('add_beneficiary_auto.html', form=form)
+
 
 
 
@@ -73,19 +66,20 @@ def search_recipe():
         return redirect(url_for('display_search_results', recipe_name=recipe_name))
     return render_template('search_recipe.html', form=form)  # Pass the form to the template
 
+
+
 @app.route('/display_search_results', methods=['GET'])
 def display_search_results():
+
+    form = RecipeDisplayForm()
     recipe_name = request.args.get('recipe_name', '')
     if recipe_name:
-
         df = pd.read_csv(os.path.join(app.config['SUBMITTED_DATA'] + recipe_name.lower().replace(" ", "_") + '.csv'))
-        return render_template('view_recipe.html', recipe=df.iloc[0], recipe_name=recipe_name)
-
-
-        # df = pd.read_csv(os.path.join(app.config['SUBMITTED_DATA'] + recipe_name.lower().replace(" ", "_") + '.csv'))
-        # return render_template('view_recipe.html', recipe=df.iloc[0])
+        recipe_data = df.iloc[0].to_dict()  # Convert DataFrame row to dictionary
+        return render_template('view_recipe.html', recipe=recipe_data, form=form)
     else:
         return "No recipe found"
+
 
 
 
@@ -103,21 +97,9 @@ def render_information(name):
     :param name: Name of the beneficiary
     :return:
     """
-    # df = pd.read_csv(os.path.join(app.config['SUBMITTED_DATA'] + name.lower().replace(" ", "_") + '.csv'), index_col=False)
-    # print (df.iloc[0]['name'])
-    # return render_template('view_recipe.html', recipe=df.iloc[0])
-
     df = pd.read_csv(os.path.join(app.config['SUBMITTED_DATA'] + name.lower().replace(" ", "_") + '.csv'), index_col=False)
-    return render_template('view_recipe.html', recipe=df.iloc[0], recipe_name=df.iloc[0]['name'])
-
-
-
-
-
-
-
-
-
+    print (df.iloc[0]['name'])
+    return render_template('view_recipe.html', recipe=df.iloc[0])
 
 @app.route('/variabletest/<name>')
 def print_variable(name):
