@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% from "form-macros.html" import render_field %}
+
+{% block page_title %}
+Search Recipes
+{% endblock %}
+
+{% block H1_Description %}
+Recipe not found
+{% endblock %}
+
+{% block H1_Content %}
+{% endblock %}
+
+{% block H2_Description %}
+{% endblock %}
+
+{% block H2_Content %}
+<section>
+    <p>Recipe "<b>{{ recipe_name }}</b>" not found. Click <b><i>Delete</i></b> to delete a recipe</p>
+</section>
+
+{% endblock %}

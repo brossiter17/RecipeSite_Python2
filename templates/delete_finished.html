@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% from "form-macros.html" import render_field %}
+
+{% block page_title %}
+Search Recipes
+{% endblock %}
+
+{% block H1_Description %}
+Recipe not found
+{% endblock %}
+
+{% block H1_Content %}
+{% endblock %}
+
+{% block H2_Description %}
+{% endblock %}
+
+{% block H2_Content %}
+<section>
+    <p>Recipe "<b>{{ recipe_name }}</b>" has been deleted. Click <b><i>Finish</i></b> to finish</p>
+
+    <table>
+        <tr class="submit">
+            <td></td>
+                <a href="{{ url_for('hello_world', recipe_name=recipe_name) }}">
+                <button type="button">Finish</button>
+                </a>
+        </tr>
+    </table>
+
+<!--    <p><a href="{{ url_for('hello_world') }}">Finish</a></p>-->
+
+</section>
+
+{% endblock %}
