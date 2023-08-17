@@ -6,11 +6,11 @@ My Favorite Recipies
 {% endblock %}
 
 {% block H1_Description %}
-The recipe you requested
+The recipe you requested to delete
 {% endblock %}
 
 {% block H1_Content %}
-Click Search to find another recipe
+Click the <i><b>Delete</b></i> button to remove the recipe
 {% endblock %}
 
 {% block H2_Description %}
@@ -57,9 +57,9 @@ Click Search to find another recipe
       <table>
         <tr class="submit">
           <td></td>
-            <td>
-              <button type="submit">Delete</button>
-            </td>
+            <a href="{{ url_for('delete_recipe', recipe_name=recipe_name) }}">
+              <button type="button">Delete</button>
+            </a>
         </tr>
       </table>
 

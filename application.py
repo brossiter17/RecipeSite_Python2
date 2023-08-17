@@ -105,6 +105,15 @@ def render_information(name):
     return render_template('view_recipe.html', recipe=df.iloc[0], recipe_name=df.iloc[0]['name'])
 
 
+@app.route('/delete_recipe/<recipe_name>', methods=['GET'])
+def delete_recipe(recipe_name):
+    recipe_csv_file = os.path.join(app.config['SUBMITTED_DATA'], recipe_name.lower().replace(" ", "_") + '.csv')
+
+    if os.path.exists(recipe_csv_file):
+        os.remove(recipe_csv_file)
+        return redirect(url_for('hello_world'))
+    else:
+        return "Recipe not found"
 
 
 
