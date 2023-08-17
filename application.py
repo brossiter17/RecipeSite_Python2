@@ -17,22 +17,6 @@ def hello_world():
     """
     return render_template('index.html')
 
-# @app.route('/add_beneficiary', methods = ['POST', 'GET'])
-# def add_beneficiary():
-#     """
-#     Function add a beneficiary using a manual form
-#     :return:
-#     """
-#     if request.method == 'POST':
-#         fname = request.form['fname']
-#         lname = request.form['lname']
-#         print(fname, lname)
-#         return "Beneficiary added successfully"
-#     else:
-#         return render_template('add_beneficiary_manual.html')
-
-
-
 def is_recipe_name_taken(recipe_name):
     recipe_csv_file = os.path.join(app.config['SUBMITTED_DATA'], recipe_name.lower().replace(" ", "_") + '.csv')
     return os.path.exists(recipe_csv_file)
@@ -139,88 +123,6 @@ def render_information(name):
     """
     df = pd.read_csv(os.path.join(app.config['SUBMITTED_DATA'] + name.lower().replace(" ", "_") + '.csv'), index_col=False)
     return render_template('view_recipe.html', recipe=df.iloc[0], recipe_name=df.iloc[0]['name'])
-
-
-# @app.route('/variabletest/<name>')
-# def print_variable(name):
-#     """
-#     Example function for dynamic content
-#     :param name: variable name
-#     :return:
-#     """
-#     return 'Hello %s!' % name
-#
-# @app.route('/integertest/<int:intID>')
-# def print_integer(intID):
-#     """
-#     Example function for dynamic integer content
-#     :param intID: integer variable
-#     :return:
-#     """
-#     return 'Number %d!' % intID
-#
-# @app.route('/floattest/<float:floatID>')
-# def print_float(floatID):
-#     """
-#     Example function for dynamic float variable content
-#     :param floatID: float variable
-#     :return:
-#     """
-#     return 'Floating Number %f!' % floatID
-#
-# @app.route('/admin')
-# def hello_admin():
-#     """
-#     Example for a sample page
-#     :return: string
-#     """
-#     # return "Hello Admin"
-#     # return render_template('search_recipe.html')
-#     return render_template('search_recipe.html')
-#
-# @app.route('/guest/<guest>')
-# def hello_guest(guest):
-#     """
-#     Example for a sample page with variable
-#     :param guest: variable
-#     :return: String
-#     """
-#     return "Hello % as Guest" % guest
-#
-# @app.route('/user/<user>')
-# def hello_user(user):
-#     """
-#     Function that demonstrates the usage of url for function
-#     :param user:
-#     :return:
-#     """
-#     if user=='admin':
-#         return redirect(url_for('hello_admin'))
-#     else:
-#         return redirect(url_for('hello_guest', guest=user))
-#
-# @app.route('/input', methods = ['POST', 'GET'])
-# def information():
-#     """
-#     Function that demonstrates an example of gathering form info
-#     :return:
-#     """
-#     if request.method == 'POST':
-#         info = request.form['info']
-#         return redirect(url_for('hello_guest', guest=info))
-#     else:
-#         return redirect(url_for('hello_world'))
-#
-# @app.route('/texample')
-# def table_example():
-#     """
-#     Function to show example of templating
-#     :return:
-#     """
-#     username = 'Michael'
-#     avg_score = 70
-#     marks_dict = {'phy': 50, 'che': 70, 'math': 90}
-#     return render_template('texample.html', name = username, marks = avg_score, results = marks_dict)
 
 @app.errorhandler(404)
 def page_not_found(e):
