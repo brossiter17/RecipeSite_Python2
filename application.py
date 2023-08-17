@@ -31,6 +31,18 @@ def add_beneficiary():
     else:
         return render_template('add_beneficiary_manual.html')
 
+
+
+def is_recipe_name_taken(recipe_name):
+    recipe_csv_file = os.path.join(app.config['SUBMITTED_DATA'], recipe_name.lower().replace(" ", "_") + '.csv')
+    return os.path.exists(recipe_csv_file)
+
+
+
+
+
+
+
 @app.route('/add_beneficiary_auto', methods = ['POST', 'GET'])
 def add_beneficiary_auto():
     """
@@ -39,7 +51,25 @@ def add_beneficiary_auto():
     """
     form = RecipeForm()
     if form.validate_on_submit():
+
         recipe_name = form.recipe_name.data
+        if is_recipe_name_taken(recipe_name):
+            flash("Name is in use. Enter a new recipe name and click Submit", "error")
+
+            form.recipe_name.data = recipe_name
+            form.recipe_ingredients.data = request.form.get('recipe_ingredients', 'recipe_ingredients')
+            form.recipe_directions.data = request.form.get('recipe_directions', 'recipe_directions')
+            form.recipe_servings.data = request.form.get('recipe_servings', 'recipe_servings')
+            return render_template('add_beneficiary_auto.html', form=form)
+
+            return redirect(url_for('add_beneficiary_auto', form=form))
+
+
+
+
+
+
+
         recipe_ingredients = form.recipe_ingredients.data
         recipe_directions = form.recipe_directions.data
         recipe_servings = form.recipe_servings.data
